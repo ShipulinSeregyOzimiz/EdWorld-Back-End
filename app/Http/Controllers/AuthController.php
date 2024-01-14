@@ -13,12 +13,11 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => ['required'],
-//            'phone' => 'required|regex:/^\+7 \d{3} \d{3} \d{2} \d{2}$/',
+            'phone' => 'required|digits:11|starts_with:77',
             'email' => ['nullable'],
             'password' => ['required']
         ]);
         $arr = $request->all();
-        $arr['phone'] = preg_replace('/[^0-9]/', '', $request->phone);
         $arr['role_id'] = 2;
 //        if (User::where('phone', $arr['phone'])->exitsts()) {
 //            return response()->json([
@@ -36,11 +35,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'phone' => 'required',
+            'phone' => 'required|digits:11|starts_with:77',
             'password' => 'required'
         ]);
-        $phone = preg_replace('/[^0-9]/', '', $request->phone);
-        if (Auth::attempt(['phone' => $phone, 'password' => $request->password])) {
+        if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('study');
 
