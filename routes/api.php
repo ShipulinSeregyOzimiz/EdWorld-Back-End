@@ -30,6 +30,11 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('test')->group(function () {
+        Route::prefix('/application')->group(function () {
+            Route::get('', [\App\Http\Controllers\TestApplicationController::class, 'index']);
+            Route::post('', [\App\Http\Controllers\TestApplicationController::class, 'store']);
+            Route::delete('/{id}', [\App\Http\Controllers\TestApplicationController::class, 'delete']);
+        });
         Route::get('', [\App\Http\Controllers\TestController::class, 'index']);
         Route::post('', [\App\Http\Controllers\TestController::class, 'store']);
         Route::post('/{id}/update', [\App\Http\Controllers\TestController::class, 'update']);

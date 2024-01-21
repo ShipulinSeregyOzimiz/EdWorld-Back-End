@@ -10,7 +10,7 @@ class UserTest extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'test_id', 'finished', 'score'];
+    protected $fillable = ['user_id', 'test_id', 'finished', 'score', 'test_application_id'];
 
     public function test()
     {
@@ -20,6 +20,11 @@ class UserTest extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function application()
+    {
+        return $this->belongsTo(TestApplication::class);
     }
 
     public function answers()

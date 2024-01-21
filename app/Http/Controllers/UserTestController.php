@@ -22,12 +22,12 @@ class UserTestController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'user_id' => 'required',
+            'user_id' => 'nullable',
             'test_id' => 'required'
         ]);
         $test = UserTest::create(['user_id' => $request->user_id, 'test_id' => $request->test_id]);
 
-        return ['success' => true, 'user_test_id' => $test->id];
+        return ['success' => true, 'test_id' => $test->id];
     }
 
     public function setAnswer(Request $request)
@@ -74,7 +74,7 @@ class UserTestController extends Controller
     {
         $questions = TestQuestion::with('answers')->where('test_id', $test_id)->get()->makeHidden(['created_at', 'updated_at', 'deleted_at']);
         $questions->each(function ($q) {
-            $q->answers->makeHidden(['created_at', 'updated_at', 'deleted_at', 'is_correct','test_question_id']);
+            $q->answers->makeHidden(['created_at', 'updated_at', 'deleted_at', 'is_correct', 'test_question_id']);
         });
 
         return $questions;
