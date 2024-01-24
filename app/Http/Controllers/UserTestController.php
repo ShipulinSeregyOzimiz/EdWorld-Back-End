@@ -19,8 +19,9 @@ class UserTestController extends Controller
         return UserTest::with('answers')->find($id);
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
+        Log::error($request->headers);
         $request->validate([
             'user_id' => 'nullable',
             'test_id' => 'required'
