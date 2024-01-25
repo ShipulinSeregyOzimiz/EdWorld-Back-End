@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/{id}', [\App\Http\Controllers\UserController::class, 'delete']);
         Route::post('/{id}/update', [\App\Http\Controllers\UserController::class, 'update']);
     });
-
+    Route::post('/application', [\App\Http\Controllers\ApplicationController::class, 'store']);
     Route::prefix('test')->group(function () {
         Route::prefix('/application')->group(function () {
             Route::get('', [\App\Http\Controllers\TestApplicationController::class, 'index']);
