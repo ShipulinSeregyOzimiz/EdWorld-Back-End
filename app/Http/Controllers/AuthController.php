@@ -26,10 +26,9 @@ class AuthController extends Controller
 //                    'errors' => ['user' => ['already exists']]
 //                ]], 422);
 //        }
-        User::create($arr);
-
-
-        return ['success' => true];
+        $user = User::create($arr);
+        $token = $user->createToken('study');
+        return ['success' => true, 'user' => $user, 'token' => $token->accessToken];
     }
 
     public function login(Request $request)
