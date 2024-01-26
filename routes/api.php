@@ -25,6 +25,7 @@ Route::middleware('guest')->group(function () {
         Route::get('/{id}/questions', [\App\Http\Controllers\UserTestController::class, 'questions']);
     });
     Route::post('/test/application', [\App\Http\Controllers\TestApplicationController::class, 'store']);
+    Route::post('/application', [\App\Http\Controllers\ApplicationController::class, 'store']);
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -35,7 +36,7 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/{id}', [\App\Http\Controllers\UserController::class, 'delete']);
         Route::post('/{id}/update', [\App\Http\Controllers\UserController::class, 'update']);
     });
-    Route::post('/application', [\App\Http\Controllers\ApplicationController::class, 'store']);
+
     Route::prefix('test')->group(function () {
         Route::prefix('/application')->group(function () {
             Route::get('', [\App\Http\Controllers\TestApplicationController::class, 'index']);
