@@ -13,6 +13,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
     /*
      * roles
      * 1: admin
@@ -29,7 +30,8 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
-        'role_id'
+        'role_id',
+        'has_access'
     ];
 
     /**

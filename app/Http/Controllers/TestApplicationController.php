@@ -32,7 +32,6 @@ class TestApplicationController extends Controller
 
     public function index(Request $request)
     {
-
         return TestApplication::with('test.answers.testAnswer')->paginate(8);
     }
 

@@ -21,7 +21,6 @@ class UserTestController extends Controller
 
     public function store(Request $request)
     {
-        Log::error($request->headers);
         $request->validate([
             'user_id' => 'nullable',
             'test_id' => 'required'
@@ -73,7 +72,9 @@ class UserTestController extends Controller
 
     public function questions($test_id)
     {
-        $questions = TestQuestion::with('answers')->where('test_id', $test_id)->get()->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+        $questions = TestQuestion::with(['answers'=>function($q){
+            $q->inRandomOrder();
+        }])->where('test_id', $test_id)->inRandomOrder()->get()->makeHidden(['created_at', 'updated_at', 'deleted_at']);
         $questions->each(function ($q) {
             $q->answers->makeHidden(['created_at', 'updated_at', 'deleted_at', 'is_correct', 'test_question_id']);
         });

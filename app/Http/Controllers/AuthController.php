@@ -13,19 +13,12 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => ['required'],
-            'phone' => 'required|digits:11|starts_with:77',
+            'phone' => 'required|digits:11|starts_with:77|unique:users',
             'email' => ['nullable'],
             'password' => ['required']
         ]);
         $arr = $request->all();
         $arr['role_id'] = 2;
-//        if (User::where('phone', $arr['phone'])->exitsts()) {
-//            return response()->json([
-//                'success' => false,
-//                'data' => [
-//                    'errors' => ['user' => ['already exists']]
-//                ]], 422);
-//        }
         $user = User::create($arr);
         $token = $user->createToken('study');
         return ['success' => true, 'user' => $user, 'token' => $token->accessToken];
