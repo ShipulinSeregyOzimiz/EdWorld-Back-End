@@ -36,6 +36,7 @@ class UserTestController extends Controller
             'user_test_id' => 'required',
             'test_answer_id' => 'required'
         ]);
+        $finished = false;
 
         $test = Test::whereHas('questions', function ($q) use ($request) {
             $q->whereHas('answers', function ($qq) use ($request) {
@@ -65,14 +66,15 @@ class UserTestController extends Controller
                 return $item->correct == 1;
             })->count();
             $user_test->save();
+            $finished = true;
         }
-        return ['success' => true];
+        return ['success' => true, 'finished' => $finished];
     }
 
 
     public function questions($test_id)
     {
-        $questions = TestQuestion::with(['answers'=>function($q){
+        $questions = TestQuestion::with(['answers' => function ($q) {
             $q->inRandomOrder();
         }])->where('test_id', $test_id)->inRandomOrder()->get()->makeHidden(['created_at', 'updated_at', 'deleted_at']);
         $questions->each(function ($q) {
